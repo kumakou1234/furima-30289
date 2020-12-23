@@ -1,14 +1,18 @@
 class Item < ApplicationRecord
-  validates :product_name, presence: true
-  validates :product_name_explanation, presence: true
-  validates :category_id,                 numericality: { other_than: 1 }
-  validates :condition_id,                numericality: { other_than: 1 }
-  validates :shipping_charges_id,         numericality: { other_than: 1 }
-  validates :prefectures_id,              numericality: { other_than: 1 }
-  validates :says_to_ship_id,             numericality: { other_than: 1 }
-  validates :price, presence: true, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
-  validates :image, presence: true
-
+  with_options presence: true do
+    validates :product_name
+    validates :product_name_explanation
+    validates :image
+    validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
+  end
+  with_options numericality: { other_than: 1 } do
+  validates :category_id
+  validates :condition_id
+  validates :shipping_charges_id
+  validates :prefectures_id
+  validates :says_to_ship_id
+  end
+  
   has_one_attached :image
   belongs_to :user
 

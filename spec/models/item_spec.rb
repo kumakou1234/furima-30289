@@ -12,7 +12,7 @@ RSpec.describe Item, type: :model do
       end
       it '価格が300以上だと登録できる' do
         @item = FactoryBot.build(:item)
-        @item.price = '300'
+        @item.price = 300
         @item.valid?
       end
     end
@@ -38,31 +38,31 @@ RSpec.describe Item, type: :model do
       end
       it 'カテゴリーの選択が空だと登録できない' do
         @item = FactoryBot.build(:item)
-        @item.category_id = '1'
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include 'Category must be other than 1'
       end
       it '商品の状態の選択が空だと登録できない' do
         @item = FactoryBot.build(:item)
-        @item.condition_id = '1'
+        @item.condition_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include 'Condition must be other than 1'
       end
       it '配送料の選択が空だと登録できない' do
         @item = FactoryBot.build(:item)
-        @item.shipping_charges_id = '1'
+        @item.shipping_charges_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include 'Shipping charges must be other than 1'
       end
       it '発送元の選択が空だと登録できない' do
         @item = FactoryBot.build(:item)
-        @item.prefectures_id = '1'
+        @item.prefectures_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include 'Prefectures must be other than 1'
       end
       it '発送までの日数の選択が空だと登録できない' do
         @item = FactoryBot.build(:item)
-        @item.says_to_ship_id = '1'
+        @item.says_to_ship_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include 'Says to ship must be other than 1'
       end
@@ -74,13 +74,13 @@ RSpec.describe Item, type: :model do
       end
       it '価格が299以下だと登録できない' do
         @item = FactoryBot.build(:item)
-        @item.price = '299'
+        @item.price = 299
         @item.valid?
         expect(@item.errors.full_messages).to include 'Price must be greater than or equal to 300'
       end
       it '価格が10,000,000以上だと登録できない' do
         @item = FactoryBot.build(:item)
-        @item.price = '10000000'
+        @item.price = 10000000
         @item.valid?
         expect(@item.errors.full_messages).to include 'Price must be less than or equal to 9999999'
       end
