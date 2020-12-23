@@ -6,7 +6,7 @@ class Item < ApplicationRecord
   validates :shipping_charges_id,         numericality: { other_than: 1 }
   validates :prefectures_id,              numericality: { other_than: 1 }
   validates :says_to_ship_id,             numericality: { other_than: 1 }
-  validates :price, presence: true, numericality: {greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999}
+  validates :price, presence: true, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
   validates :image, presence: true
 
   has_one_attached :image
