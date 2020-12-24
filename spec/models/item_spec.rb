@@ -80,7 +80,7 @@ RSpec.describe Item, type: :model do
       end
       it '価格が10,000,000以上だと登録できない' do
         @item = FactoryBot.build(:item)
-        @item.price = 10000000
+        @item.price = 10_000_000
         @item.valid?
         expect(@item.errors.full_messages).to include 'Price must be less than or equal to 9999999'
       end
