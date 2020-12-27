@@ -32,6 +32,9 @@ class ItemsController < ApplicationController
       redirect_to item_path
     else
         render :edit
+    end destroy
+    item = Item.find(params[:id])
+    item.destroy
     end
   end
 
