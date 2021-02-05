@@ -1,81 +1,80 @@
 require 'rails_helper'
 
 RSpec.describe PurchaseForm, type: :model do
-   before do
-      @uset = FactoryBot.create(:user)
-      @item = FactoryBot.create(:item)
-      @purchase = FactoryBot.build(:purchase_form, user_id: @user, item_id: @item)
-      sleep(1)
-   end
-  
-   describe '商品購入' do
-     context 'うまくいく場合' do
-       it '郵便番号、都道府県、市町村、番地、建物名、電話番号、トークン、が存在すれば購入できる' do
+  before do
+    @uset = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
+    @purchase = FactoryBot.build(:purchase_form, user_id: @user, item_id: @item)
+    sleep(1)
+  end
+
+  describe '商品購入' do
+    context 'うまくいく場合' do
+      it '郵便番号、都道府県、市町村、番地、建物名、電話番号、トークン、が存在すれば購入できる' do
         @purchase = FactoryBot.build(:purchase_form)
         @purchase.valid?
       end
       it '郵便番号、都道府県、市町村、番地、電話番号、トークン、が存在すれば購入できる' do
         @purchase = FactoryBot.build(:purchase_form)
-        @purchase.building_name   = ''
+        @purchase.building_name = ''
         @purchase.valid?
-       end
-   end
+      end
+    end
   end
-   context 'うまくいかない場合' do
+  context 'うまくいかない場合' do
     it 'トークンが無いと購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-      @purchase.token    = ''
+      @purchase.token = ''
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include "Token can't be blank"
     end
     it '郵便番号が空だとと購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-      @purchase.postal_code    = ''
+      @purchase.postal_code = ''
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include "Postal code can't be blank"
     end
     it '郵便番号が〇〇〇-〇〇〇〇（-が無いと）と購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-      @purchase.postal_code    = 1234567
+      @purchase.postal_code = 1_234_567
       @purchase.valid?
-      expect(@purchase.errors.full_messages).to include "Postal code is invalid. Include hyphen(-)"
+      expect(@purchase.errors.full_messages).to include 'Postal code is invalid. Include hyphen(-)'
     end
-     it '都道府県の項目が空だと購入できない ' do
+    it '都道府県の項目が空だと購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-       @purchase.prefectures_id    = 1
-       @purchase.valid?
+      @purchase.prefectures_id = 1
+      @purchase.valid?
       expect(@purchase.errors.full_messages).to include "Prefectures can't be blank"
-     end
-     it '市区町村が無いと購入できない ' do
+    end
+    it '市区町村が無いと購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-      @purchase.municipalities   = ''
+      @purchase.municipalities = ''
       @purchase.valid?
-       expect(@purchase.errors.full_messages).to include "Municipalities is invalid"
-     end
-     it '番地が無いと購入できない ' do
+      expect(@purchase.errors.full_messages).to include 'Municipalities is invalid'
+    end
+    it '番地が無いと購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-      @purchase.address    = ''
+      @purchase.address = ''
       @purchase.valid?
-       expect(@purchase.errors.full_messages).to include "Address can't be blank"
-     end
+      expect(@purchase.errors.full_messages).to include "Address can't be blank"
+    end
     it '電話番号が無いと購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-      @purchase.phone_number   = ''
+      @purchase.phone_number = ''
       @purchase.valid?
-       expect(@purchase.errors.full_messages).to include "Phone number can't be blank"
-     end
-     it '電話番号が全角英数では購入できない ' do
+      expect(@purchase.errors.full_messages).to include "Phone number can't be blank"
+    end
+    it '電話番号が全角英数では購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-     @purchase.phone_number   = '１１１１１１'
-     @purchase.valid?
-       expect(@purchase.errors.full_messages).to include "Phone number is not a number"
-     end
-     it '電話番号に-を入力すると購入できない ' do
+      @purchase.phone_number = '１１１１１１'
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include 'Phone number is not a number'
+    end
+    it '電話番号に-を入力すると購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
-     @purchase.phone_number   = '000-2222'
-     @purchase.valid?
-       expect(@purchase.errors.full_messages).to include "Phone number is not a number"
-     end
+      @purchase.phone_number = '000-2222'
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include 'Phone number is not a number'
+    end
   end
-
 end
