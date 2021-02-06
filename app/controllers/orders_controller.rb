@@ -12,7 +12,6 @@ class OrdersController < ApplicationController
     @purchase_form = PurchaseForm.new(purchase_params)
     if @purchase_form.valid?
       pay_item
-
       @purchase_form.save
       return redirect_to root_path
     end
