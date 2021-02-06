@@ -5,6 +5,7 @@ class OrdersController < ApplicationController
     @item = Item.find(params[:item_id])
     @purchase_form = PurchaseForm.new
     redirect_to root_path if @item.user_id == current_user.id
+    redirect_to root_path if @item.order != nil
   end
 
   def create
