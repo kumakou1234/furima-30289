@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PurchaseForm, type: :model do
   before do
-    @uset = FactoryBot.create(:user)
+    @user = FactoryBot.create(:user)
     @item = FactoryBot.create(:item)
     @purchase = FactoryBot.build(:purchase_form, user_id: @user, item_id: @item)
     sleep(1)
@@ -22,11 +22,17 @@ RSpec.describe PurchaseForm, type: :model do
     end
   end
   context 'うまくいかない場合' do
-    it 'トークンが無いと購入できない ' do
+    it 'user idが空だと購入できない' do
       @purchase = FactoryBot.build(:purchase_form)
-      @purchase.token = ''
+      @user  = ''
       @purchase.valid?
-      expect(@purchase.errors.full_messages).to include "Token can't be blank"
+      expect(@purchase.errors.full_messages).to include "User can't be blank"
+    end
+    it 'item idが空だと購入できない' do
+      @purchase = FactoryBot.build(:purchase_form)
+      @item  = ''
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include "Item can't be blank"
     end
     it '郵便番号が空だとと購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
@@ -41,6 +47,12 @@ RSpec.describe PurchaseForm, type: :model do
       expect(@purchase.errors.full_messages).to include 'Postal code is invalid. Include hyphen(-)'
     end
     it '都道府県の項目が空だと購入できない ' do
+      @purchase = FactoryBot.build(:purchase_form)
+      @purchase.prefectures_id = ''
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include "Prefectures can't be blank"
+    end
+    it '都道府県の項目が1だと購入できない ' do
       @purchase = FactoryBot.build(:purchase_form)
       @purchase.prefectures_id = 1
       @purchase.valid?
@@ -75,6 +87,12 @@ RSpec.describe PurchaseForm, type: :model do
       @purchase.phone_number = '000-2222'
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include 'Phone number is not a number'
+    end
+     it '電話番号が12文字では購入できない ' do
+      @purchase = FactoryBot.build(:purchase_form)
+      @purchase.phone_number = 111111111111
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include 'Phone number is too long (maximum is 11 characters)'
     end
   end
 end

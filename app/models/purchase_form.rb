@@ -8,7 +8,8 @@ class PurchaseForm
     validates :prefectures_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :municipalities, format: { with: /\A[ぁ-んァ-ン一-龥]/ }
     validates :address, format: { with: /\A[ぁ-んァ-ン一-龥]/ }
-    validates :phone_number, numericality: { only_integer: true }
+    validates :phone_number, numericality: { only_integer: true } 
+    validates :phone_number,length: { maximum: 11 }
     validates :item_id
     validates :user_id
     validates :token
