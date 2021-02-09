@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
       currency: 'jpy'
     )
   end
-  private
+  
   def set_item
     @item = Item.find(params[:item_id])
   end
