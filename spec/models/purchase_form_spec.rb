@@ -22,13 +22,13 @@ RSpec.describe PurchaseForm, type: :model do
   context 'うまくいかない場合' do
     it 'user idが空だと購入できない' do
       @purchase = FactoryBot.build(:purchase_form)
-      @user  = ''
+      @user  = nil
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include "User can't be blank"
     end
     it 'item idが空だと購入できない' do
       @purchase = FactoryBot.build(:purchase_form)
-      @item  = ''
+      @item  = nil
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include "Item can't be blank"
     end
