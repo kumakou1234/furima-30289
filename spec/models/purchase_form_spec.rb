@@ -20,6 +20,11 @@ RSpec.describe PurchaseForm, type: :model do
     end
   end
   context 'うまくいかない場合' do
+    it 'トークンが無いと購入できない ' do
+      @purchase.token = ''
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include "Token can't be blank"
+    end
     it 'user idが空だと購入できない' do
       @purchase.user_id = ''
       @purchase.valid?
